@@ -68,15 +68,11 @@ func main() {
 		}
 	}
 
+	var newPlay, complete int
 	fmt.Printf("%v events with no data at index: %v\n", len(noData), noData)
 	fmt.Println("Number of unique addresses per tutorial:")
 	for k, v := range m {
 		fmt.Printf("\t- %v: %v\n", k, len(v))
-	}
-
-	var newPlay, complete int
-	fmt.Println("Number of unique addresses per event:")
-	for _, v := range m {
 		for _, iv := range v {
 			if iv.IsNewPlayerEvent {
 				newPlay++
@@ -85,6 +81,8 @@ func main() {
 			}
 		}
 	}
+
+	fmt.Println("Number of unique addresses per event:")
 	fmt.Printf("\t- new_player: %v\n", newPlay)
 	fmt.Printf("\t- new_validation: %v\n", complete)
 }
