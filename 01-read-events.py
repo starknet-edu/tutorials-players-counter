@@ -117,15 +117,16 @@ def update_event_ids_for_contract(contract_address):
     print(len(get(
         f"{BASE_URL}/events?contract={contract_address}&p=1&ps={PAGE_SIZE}").json()["items"]))
     print(f"{last_page} pages in total")
-    starting_page = math.floor(existing_events/PAGE_SIZE)
-    print(f"Starting at page {starting_page}")
-    for i in range(starting_page, last_page +1):
+    
+    for i in range(0, last_page +1):
         page_event_ids = [item["id"] for item in get(
         f"{BASE_URL}/events?contract={contract_address}&p={i}&ps={PAGE_SIZE}").json()["items"]]
         already_recorded_events = get_events_already_in_sql(page_event_ids)
         for id in already_recorded_events:
             page_event_ids.remove(id)
-
+        if page_event_ids == []:
+            print("All events are recorded")
+            break;
         events_ids_formatted = [{"starknet_id": event, "contract_address": contract_address, "processed": 0} for event in page_event_ids]
 
         # print(len(event_ids))
